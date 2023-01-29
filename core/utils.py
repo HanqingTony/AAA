@@ -27,8 +27,6 @@ def func_im_grab(hwnd, zooming=1):
     #保存bitmap到内存设备描述表
     saveDC.BitBlt((0,0), (width,height), mfcDC, (0, 0), win32con.SRCCOPY)
 
-
-    
     ##方法二(第一部分)：PIL保存
     ###获取位图信息
     bmpinfo = saveBitMap.GetInfo()
@@ -39,23 +37,16 @@ def func_im_grab(hwnd, zooming=1):
     saveDC.DeleteDC()
     mfcDC.DeleteDC()
     win32gui.ReleaseDC(hwnd,hwndDC)
-
     ### opencv格式转PIL
     im_PIL = Image.frombuffer('RGB',(bmpinfo['bmWidth'],bmpinfo['bmHeight']),bmpstr,'raw','BGRX',0,1)
     return im_PIL
 
 
-def click(self, tuple_pos):
+def click(clickpos):
     '''
-    点击准备按钮。写死了位置，假如改了分辨率，这个要重新改。后续将变成算的
+    窗口点击
+    
     '''
-    pos_center = (633,332)
-    pos_rand = (633+ random.randint(-20, 20), 332+random.randint(-20, 20))
-    logger.info(
-        '点击:位置'+ str(pos_rand)
-    )
-    long_target = win32api.MAKELONG(*pos_rand)
-    win32api.SendMessage(hwnd_child,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,long_target)
-    time.sleep(0.02+ 0.03*random.random())
-    win32api.SendMessage(hwnd_child,win32con.WM_LBUTTONUP,win32con.MK_LBUTTON,long_target)
+    win32api.SetCursorPos(clickpos)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP|win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
     return

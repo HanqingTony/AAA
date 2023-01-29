@@ -1,18 +1,29 @@
 from time import *
 import win32api
+import win32gui
+import win32ui
 import logging
+import aircv as ac
+import cv2
+import numpy as np
+import win32con
+from PIL import Image
+import random
+from utils import *
 
-class aeu_executer:
+
+class mainloop:
     '''
-    执行器
+    主循环，包含日志输出，循环间隔等参数，传入不同的task_controller
+    改进方向：支持多个task
     '''
-    def __init__(self):
-        self.list_registed_policy=[]
+    def __init__(self, tasks):
         self.sleep_interval=0.3
         self.debug=print
         self.info=print
         self.error=print
         self.fatel=print
+        self.tasks=tasks
         return
 
     def do(self):
@@ -21,20 +32,12 @@ class aeu_executer:
         '''
         while not self.check_finish():
             self.debug(win32api.GetCursorPos())
-            for policy in self.list_registed_policy:
-                policy.check()
+            for task in self.tasks:
+                #执行task对象的update方法
+                task.update()
             #睡指定的时间
             sleep(self.sleep_interval)
             
-
-
-    def clean_rutine(self):
-        '''
-        
-        '''
-        self.list_routine_check=[]
-        return
-
     def check_finish(self):
         '''
         检查是否结束
@@ -46,3 +49,6 @@ class aeu_executer:
             return False
 
 
+if __name__=="__main__":
+    
+    pass

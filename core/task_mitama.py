@@ -107,8 +107,8 @@ if __name__=="__main__":
     andro1 = window("andro1")
     andro2 = window("andro2")
     task0=task_mitama_guest(andro0,60)
-    task1=task_mitama_host(andro2,60)
-    task2=task_mitama_guest(andro1,60)
+    task1=task_mitama_host(andro1,60)
+    task2=task_mitama_guest(andro2,60)
 
     a=mainloop([task0, task1, task2])
 
